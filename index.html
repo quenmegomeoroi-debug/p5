@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skibidi Minh Nhat | Skibidi Profile</title>
+    <title>Skibidi Minh Nhat | Cinematic Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     
@@ -11,173 +11,136 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
-            background: #050505;
+            background: #000;
             overflow: hidden;
             color: #ffffff;
             cursor: pointer;
         }
 
+        /* --- INTRO KHỐI NĂNG LƯỢNG GIÃN NỞ --- */
+        #core-intro {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 1s ease-in-out;
+        }
+
+        .cube-core {
+            width: 50px; height: 50px;
+            background: #fff;
+            box-shadow: 0 0 50px #fff, 0 0 100px #fff;
+            animation: pulse-and-expand 3s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+        }
+
+        @keyframes pulse-and-expand {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            30% { transform: scale(1) rotate(45deg); opacity: 1; border-radius: 0; }
+            60% { transform: scale(0.8) rotate(180deg); opacity: 1; border-radius: 50%; }
+            100% { transform: scale(50); opacity: 0; display: none; }
+        }
+
+        /* Hiệu ứng các thành phần bay vào */
+        .reveal-anim {
+            animation: slide-in 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes slide-in {
+            from { transform: scale(0.5) translateY(50px); opacity: 0; filter: blur(10px); }
+            to { transform: scale(1) translateY(0); opacity: 1; filter: blur(0px); }
+        }
+        /* ------------------------------------ */
+
         .watermark {
-            position: absolute;
-            top: 20px; left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            padding: 5px 15px;
-            border-radius: 50px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
+            position: absolute; top: 20px; left: 50%;
+            transform: translateX(-50%); z-index: 100;
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.05);
+            padding: 5px 15px; border-radius: 50px; backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1); pointer-events: none;
         }
 
         .container {
-            position: relative;
-            height: 100vh; width: 100%;
+            position: relative; height: 100vh; width: 100%;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
 
         .background {
-            position: absolute;
-            top: -5%; left: -5%;
-            width: 110%; height: 110%;
+            position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
             background: url('https://images.alphacoders.com/133/1331005.png') center/cover no-repeat;
-            filter: brightness(0.15) contrast(1.2) blur(4px);
-            z-index: 1;
+            filter: brightness(0.15) contrast(1.2) blur(4px); z-index: 1;
         }
 
         .title-group {
-            position: absolute;
-            z-index: 2;
-            width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            pointer-events: none;
+            position: absolute; z-index: 2; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center; pointer-events: none;
         }
 
         .big-title {
-            font-size: 11vw; font-weight: 900;
-            color: rgba(255, 255, 255, 0.08);
-            text-transform: uppercase; line-height: 0.85;
-            letter-spacing: -5px; white-space: nowrap;
+            font-size: 11vw; font-weight: 900; color: rgba(255, 255, 255, 0.08);
+            text-transform: uppercase; line-height: 0.85; letter-spacing: -5px; white-space: nowrap;
         }
 
         .small-text {
-            position: absolute;
-            font-weight: 600; text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.03);
-            white-space: nowrap; font-size: 1.1vw;
+            position: absolute; font-weight: 600; text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.03); white-space: nowrap; font-size: 1.1vw;
         }
 
         .content {
-            position: absolute;
-            left: 10%; max-width: 400px;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(30px);
-            padding: 40px; border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute; left: 10%; max-width: 400px; z-index: 10;
+            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px);
+            padding: 40px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .content h2 { font-size: 2.4rem; margin-bottom: 10px; font-weight: 900; }
 
         .btn-more {
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff; padding: 10px 24px;
-            border-radius: 100px; cursor: pointer;
-            font-weight: 600; transition: 0.4s;
-            margin-top: 15px; display: inline-block; font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff; padding: 10px 24px; border-radius: 100px; cursor: pointer;
+            font-weight: 600; transition: 0.4s; margin-top: 15px; display: inline-block; font-size: 0.9rem;
         }
-        .btn-more:hover {
-            background: #fff; color: #000;
-            box-shadow: 0 0 25px rgba(255,255,255,0.3);
-            transform: scale(1.05);
-        }
+        .btn-more:hover { background: #fff; color: #000; box-shadow: 0 0 25px rgba(255,255,255,0.3); transform: scale(1.05); }
 
-        /* MODAL GỌN GÀNG HƠN */
         .modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(20px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(20px);
             display: none; align-items: center; justify-content: center;
-            z-index: 1000; opacity: 0;
-            transition: 0.4s ease;
+            z-index: 1000; opacity: 0; transition: 0.4s ease;
         }
         .modal.active { display: flex; opacity: 1; }
 
-        .modal-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            width: 90%; max-width: 800px;
-        }
+        .modal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 90%; max-width: 800px; }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 20px; border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            transition: 0.3s ease;
-            text-align: center;
+            background: rgba(255, 255, 255, 0.04); padding: 20px; border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px);
+            transition: 0.3s ease; text-align: center;
         }
-        .glass-card:hover { 
-            border-color: rgba(255,255,255,0.4); 
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-5px);
-        }
+        .glass-card:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); transform: translateY(-5px); }
+        .glass-card i { font-size: 1.2rem; margin-bottom: 10px; color: rgba(255,255,255,0.5); }
+        .glass-card h3 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); margin-bottom: 5px; }
+        .glass-card p { font-size: 0.85rem; font-weight: 500; color: #fff; }
 
-        .glass-card i {
-            font-size: 1.2rem; margin-bottom: 10px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .glass-card h3 {
-            font-size: 0.65rem; text-transform: uppercase;
-            letter-spacing: 1.5px; color: rgba(255,255,255,0.4);
-            margin-bottom: 5px;
-        }
-
-        .glass-card p {
-            font-size: 0.85rem; font-weight: 500; color: #fff;
-        }
-
-        .close-btn {
-            position: absolute; top: 25px; right: 35px;
-            cursor: pointer; font-size: 2.5rem; color: rgba(255,255,255,0.2);
-            transition: 0.3s;
-        }
+        .close-btn { position: absolute; top: 25px; right: 35px; cursor: pointer; font-size: 2.5rem; color: rgba(255,255,255,0.2); transition: 0.3s; }
         .close-btn:hover { color: #fff; }
 
         .music-player-container {
-            position: absolute; bottom: 30px; left: 30px;
-            z-index: 100; width: 220px;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px; padding: 10px;
-            display: flex; align-items: center; gap: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
+            position: absolute; bottom: 30px; left: 30px; z-index: 100; width: 220px;
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
+            border-radius: 15px; padding: 10px; display: flex; align-items: center; gap: 10px;
+            border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
         }
 
-        .play-btn {
-            width: 30px; height: 30px;
-            background: #fff; color: #000;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem;
-        }
+        .play-btn { width: 30px; height: 30px; background: #fff; color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
 
         .character {
-            position: absolute; bottom: 10%; right: 5%;
-            width: 42vh; height: 42vh;
-            object-fit: cover; border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 5; pointer-events: none;
+            position: absolute; bottom: 10%; right: 5%; width: 42vh; height: 42vh;
+            object-fit: cover; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 5; pointer-events: none; opacity: 0;
         }
 
         .socials { display: flex; gap: 18px; margin-top: 25px; }
@@ -191,17 +154,23 @@
 </head>
 <body onclick="initAudio()">
 
+    <div id="core-intro">
+        <div class="cube-core"></div>
+    </div>
+
     <div class="watermark">Made by Skibidi Minh Nhat</div>
 
-    <div class="container">
+    <div class="container" id="main-ui">
         <div class="background" id="bg"></div>
-        <div class="title-group" id="titleGroup">
+        <div class="title-group reveal-anim" id="titleGroup" style="animation-delay: 2.5s;">
             <h1 class="big-title" id="title">SKIBIDI<br>MINH NHAT</h1>
         </div>
-        <img src="https://static.wikia.nocookie.net/5f8175f8-a3a7-40ae-8626-8d73c81124c1" class="character" id="char">
-        <div class="content" id="info">
+        
+        <img src="https://static.wikia.nocookie.net/5f8175f8-a3a7-40ae-8626-8d73c81124c1" class="character reveal-anim" id="char" style="animation-delay: 2.8s;">
+        
+        <div class="content reveal-anim" id="info" style="animation-delay: 3s;">
             <h2>Doan Minh Nhat</h2>
-            <p>"Tôi không học code vì đam mê,tôi học code vì bị ép."</p>
+            <p>"Tôi không học code vì đam mê, tôi học code vì bị ép."</p>
             <div class="btn-more" onclick="toggleModal(event)">Xem Profile</div>
             <div class="socials">
                 <a href="https://www.facebook.com/skibidimihnhat" target="_blank"><i class="fab fa-facebook"></i></a>
@@ -211,7 +180,8 @@
                 <a href="https://zalo.me/0383512564" target="_blank" style="font-weight: 900; font-size: 1.1rem;">Z</a> 
             </div>
         </div>
-        <div class="music-player-container" onclick="toggleMusic(event)">
+
+        <div class="music-player-container reveal-anim" onclick="toggleMusic(event)" style="animation-delay: 3.2s;">
             <div class="play-btn" id="musicBtn"><i class="fas fa-play" id="playIcon"></i></div>
             <div>
                 <p style="font-size: 0.65rem; font-weight: 800; letter-spacing: 1px;">Song</p>
@@ -225,58 +195,26 @@
     <div class="modal" id="aboutModal">
         <div class="close-btn" onclick="toggleModal(event)">×</div>
         <div class="modal-grid">
-            
-            <div class="glass-card">
-                <i class="fas fa-user"></i>
-                <h3>Tên</h3>
-                <p>Doan Minh Nhat</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-moon"></i>
-                <h3>Sở thích</h3>
-                <p>Ngủ</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-code"></i>
-                <h3>Skill</h3>
-                <p>Ctrl+C/Ctr+V</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-location-dot"></i>
-                <h3>Birth Day</h3>
-                <p>14/5/2011</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-bolt"></i>
-                <h3>Trạng thái</h3>
-                <p>Ngủ</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-music"></i>
-                <h3>Gu Nhạc</h3>
-                <p>lúc này lúc kia...</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-star"></i>
-                <h3>Dự án</h3>
-                <p>chưa có....</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-language"></i>
-                <h3>Ngôn ngữ</h3>
-                <p>Tiếng Việt & Tiếng Mẹ Đẻ</p>
-            </div>
-            <div class="glass-card">
-                <i class="fas fa-heart"></i>
-                <h3>Yêu thích</h3>
-                <p> Ngủ và Lập trình[khi có AI]</p>
-            </div>
-
+            <div class="glass-card"><i class="fas fa-user"></i><h3>Tên</h3><p>Doan Minh Nhat</p></div>
+            <div class="glass-card"><i class="fas fa-moon"></i><h3>Sở thích</h3><p>Ngủ</p></div>
+            <div class="glass-card"><i class="fas fa-code"></i><h3>Skill</h3><p>Ctrl+C/V</p></div>
+            <div class="glass-card"><i class="fas fa-location-dot"></i><h3>Birth Day</h3><p>14/5/2011</p></div>
+            <div class="glass-card"><i class="fas fa-bolt"></i><h3>Trạng thái</h3><p>Ngủ</p></div>
+            <div class="glass-card"><i class="fas fa-music"></i><h3>Gu Nhạc</h3><p>Lúc này lúc kia...</p></div>
+            <div class="glass-card"><i class="fas fa-star"></i><h3>Dự án</h3><p>Chưa có....</p></div>
+            <div class="glass-card"><i class="fas fa-language"></i><h3>Ngôn ngữ</h3><p>Tiếng Việt</p></div>
+            <div class="glass-card"><i class="fas fa-heart"></i><h3>Yêu thích</h3><p>Ngủ & AI</p></div>
         </div>
     </div>
 
     <script>
-        // BẢO MẬT
+        // Xử lý Intro
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('core-intro').style.display = 'none';
+            }, 3000);
+        });
+
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = e => { if(e.keyCode==123 || (e.ctrlKey&&e.shiftKey&&e.keyCode==73) || (e.ctrlKey&&e.keyCode==85)) return false; };
 
