@@ -1,0 +1,355 @@
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+if __name__ == "__main__":
+    app.run()
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skibidi Minh Nhat | Skibidi Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #050505;
+            overflow: hidden;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 20px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 15px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            height: 100vh; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+
+        .background {
+            position: absolute;
+            top: -5%; left: -5%;
+            width: 110%; height: 110%;
+            background: url('https://images.alphacoders.com/133/1331005.png') center/cover no-repeat;
+            filter: brightness(0.15) contrast(1.2) blur(4px);
+            z-index: 1;
+        }
+
+        .title-group {
+            position: absolute;
+            z-index: 2;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            pointer-events: none;
+        }
+
+        .big-title {
+            font-size: 11vw; font-weight: 900;
+            color: rgba(255, 255, 255, 0.08);
+            text-transform: uppercase; line-height: 0.85;
+            letter-spacing: -5px; white-space: nowrap;
+        }
+
+        .small-text {
+            position: absolute;
+            font-weight: 600; text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.03);
+            white-space: nowrap; font-size: 1.1vw;
+        }
+
+        .content {
+            position: absolute;
+            left: 10%; max-width: 400px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(30px);
+            padding: 40px; border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content h2 { font-size: 2.4rem; margin-bottom: 10px; font-weight: 900; }
+
+        .btn-more {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff; padding: 10px 24px;
+            border-radius: 100px; cursor: pointer;
+            font-weight: 600; transition: 0.4s;
+            margin-top: 15px; display: inline-block; font-size: 0.9rem;
+        }
+        .btn-more:hover {
+            background: #fff; color: #000;
+            box-shadow: 0 0 25px rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        /* MODAL GỌN GÀNG HƠN */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0;
+            transition: 0.4s ease;
+        }
+        .modal.active { display: flex; opacity: 1; }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 90%; max-width: 800px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 20px; border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            transition: 0.3s ease;
+            text-align: center;
+        }
+        .glass-card:hover { 
+            border-color: rgba(255,255,255,0.4); 
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-5px);
+        }
+
+        .glass-card i {
+            font-size: 1.2rem; margin-bottom: 10px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .glass-card h3 {
+            font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 1.5px; color: rgba(255,255,255,0.4);
+            margin-bottom: 5px;
+        }
+
+        .glass-card p {
+            font-size: 0.85rem; font-weight: 500; color: #fff;
+        }
+
+        .close-btn {
+            position: absolute; top: 25px; right: 35px;
+            cursor: pointer; font-size: 2.5rem; color: rgba(255,255,255,0.2);
+            transition: 0.3s;
+        }
+        .close-btn:hover { color: #fff; }
+
+        .music-player-container {
+            position: absolute; bottom: 30px; left: 30px;
+            z-index: 100; width: 220px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px; padding: 10px;
+            display: flex; align-items: center; gap: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+        }
+
+        .play-btn {
+            width: 30px; height: 30px;
+            background: #fff; color: #000;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .character {
+            position: absolute; bottom: 10%; right: 5%;
+            width: 42vh; height: 42vh;
+            object-fit: cover; border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 5; pointer-events: none;
+        }
+
+        .socials { display: flex; gap: 18px; margin-top: 25px; }
+        .socials a { color: rgba(255, 255, 255, 0.25); font-size: 1.3rem; transition: 0.3s; }
+        .socials a:hover { color: #fff; transform: translateY(-3px); }
+
+        .spinning { animation: rotate 3s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body onclick="initAudio()">
+
+    <div class="watermark">Made by Skibidi Minh Nhat</div>
+
+    <div class="container">
+        <div class="background" id="bg"></div>
+        <div class="title-group" id="titleGroup">
+            <h1 class="big-title" id="title">SKIBIDI<br>MINH NHAT</h1>
+        </div>
+        <img src="https://static.wikia.nocookie.net/5f8175f8-a3a7-40ae-8626-8d73c81124c1" class="character" id="char">
+        <div class="content" id="info">
+            <h2>Doan Minh Nhat</h2>
+            <p>"Tôi không học code vì đam mê,tôi học code vì bị ép."</p>
+            <div class="btn-more" onclick="toggleModal(event)">Xem Profile</div>
+            <div class="socials">
+                <a href="https://www.facebook.com/skibidimihnhat" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://github.com/quenmegomeoroi-debug" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://discord.gg/gw88McJE" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-spotify"></i></a>
+                <a href="https://zalo.me/0383512564" target="_blank" style="font-weight: 900; font-size: 1.1rem;">Z</a> 
+            </div>
+        </div>
+        <div class="music-player-container" onclick="toggleMusic(event)">
+            <div class="play-btn" id="musicBtn"><i class="fas fa-play" id="playIcon"></i></div>
+            <div>
+                <p style="font-size: 0.65rem; font-weight: 800; letter-spacing: 1px;">Song</p>
+                <p id="statusText" style="font-size: 0.55rem; color: rgba(255,255,255,0.4);">Click để nghe nhạc</p>
+            </div>
+        </div>
+    </div>
+
+    <audio id="myAudio" loop><source src="4r.mp3" type="audio/mpeg"></audio>
+
+    <div class="modal" id="aboutModal">
+        <div class="close-btn" onclick="toggleModal(event)">×</div>
+        <div class="modal-grid">
+            
+            <div class="glass-card">
+                <i class="fas fa-user"></i>
+                <h3>Tên</h3>
+                <p>Doan Minh Nhat</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-moon"></i>
+                <h3>Sở thích</h3>
+                <p>Ngủ</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-code"></i>
+                <h3>Skill</h3>
+                <p>Ctrl+C/Ctr+V</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-location-dot"></i>
+                <h3>Birth Day</h3>
+                <p>14/5/2011</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Trạng thái</h3>
+                <p>Ngủ</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-music"></i>
+                <h3>Gu Nhạc</h3>
+                <p>lúc này lúc kia...</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-star"></i>
+                <h3>Dự án</h3>
+                <p>chưa có....</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-language"></i>
+                <h3>Ngôn ngữ</h3>
+                <p>Tiếng Việt & Tiếng Mẹ Đẻ</p>
+            </div>
+            <div class="glass-card">
+                <i class="fas fa-heart"></i>
+                <h3>Yêu thích</h3>
+                <p> Ngủ và Lập trình[khi có AI]</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // BẢO MẬT
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = e => { if(e.keyCode==123 || (e.ctrlKey&&e.shiftKey&&e.keyCode==73) || (e.ctrlKey&&e.keyCode==85)) return false; };
+
+        const audio = document.getElementById('myAudio');
+        const playIcon = document.getElementById('playIcon');
+        const musicBtn = document.getElementById('musicBtn');
+        const statusText = document.getElementById('statusText');
+        let hasInteracted = false;
+
+        function initAudio() {
+            if (!hasInteracted) {
+                audio.play().then(() => {
+                    playIcon.className = 'fas fa-pause';
+                    musicBtn.classList.add('spinning');
+                    statusText.innerText = 'Now Playing...';
+                    hasInteracted = true;
+                });
+            }
+        }
+
+        function toggleMusic(e) {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = 'fas fa-pause';
+                musicBtn.classList.add('spinning');
+                statusText.innerText = 'Now Playing...';
+            } else {
+                audio.pause();
+                playIcon.className = 'fas fa-play';
+                musicBtn.classList.remove('spinning');
+                statusText.innerText = 'Paused';
+            }
+        }
+
+        function toggleModal(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('aboutModal').classList.toggle('active');
+        }
+
+        const bg = document.getElementById('bg'), char = document.getElementById('char'), title = document.getElementById('title'), info = document.getElementById('info');
+        document.addEventListener('mousemove', (e) => {
+            let x = (window.innerWidth / 2 - e.pageX) / 45;
+            let y = (window.innerHeight / 2 - e.pageY) / 45;
+            bg.style.transform = `translateX(${x}px) translateY(${y}px) scale(1.1)`;
+            title.style.transform = `translateX(${-x * 1.5}px) translateY(${-y * 1.5}px)`;
+            char.style.transform = `translateX(${-x * 2}px) translateY(${-y * 0.5}px)`;
+            info.style.transform = `translateX(${x * 0.5}px) translateY(${y * 0.5}px)`;
+        });
+
+        const createFloatingText = () => {
+            const group = document.getElementById('titleGroup');
+            for (let i = 0; i < 15; i++) {
+                const span = document.createElement('span');
+                span.className = 'small-text';
+                span.innerText = 'SKIBIDI MINH NHAT';
+                span.style.top = (Math.random() * 90) + '%';
+                span.style.left = (Math.random() * 90) + '%';
+                group.appendChild(span);
+            }
+        };
+        createFloatingText();
+    </script>
+</body>
+</html>
